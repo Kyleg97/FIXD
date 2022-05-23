@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import "package:http/http.dart" as http;
+import '../models/user_model.dart';
 
-Future<dynamic> postLogin(String email, String password) async {
+Future<UserModel> postLogin(String email, String password) async {
   // return http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
   print("calling login api...");
   String url = "https://staff.dev.fixdapp.com/api/v2/session";
@@ -18,6 +18,11 @@ Future<dynamic> postLogin(String email, String password) async {
   };
   final response =
       await http.post(Uri.parse(url), headers: headers, body: data);
-  print(jsonDecode(response.body));
-  return response;
+  final userModel = userModelFromJson(response.body.toString());
+  print(userModel);
+  return userModel;
 }
+
+UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+
+String userModelToJson(UserModel data) => json.encode(data.toJson());

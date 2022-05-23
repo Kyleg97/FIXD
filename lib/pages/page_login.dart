@@ -1,6 +1,5 @@
 import 'package:fixd/api/api_login.dart';
 import 'package:flutter/material.dart';
-import 'package:encrypt/encrypt.dart';
 
 class LoginPage extends StatefulWidget {
   // TO DO
