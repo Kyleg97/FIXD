@@ -1,9 +1,9 @@
 import 'package:fixd/api/api_login.dart';
 import 'package:flutter/material.dart';
+import '../models/user_model.dart';
+import 'page_user.dart';
 
 class LoginPage extends StatefulWidget {
-  // TO DO
-  // static String tag = 'future_page';
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLoading = false;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -67,21 +68,41 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 25.0),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                onPressed: () {
-                  // TO DO
-                  //print("Log in button pressed");
-                  postLogin(emailController.text, passwordController.text);
-                  // Navigator.of(context).pushNamed('future_page');
-                },
-                padding: const EdgeInsets.all(10),
-                color: Colors.green,
-                child:
-                    const Text('Log in', style: TextStyle(color: Colors.white)),
-              ),
+              child: isLoading == false
+                  ? RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      onPressed: () async {
+                        // TO DO
+                        //print("Log in button pressed");
+                        setState(() {
+                          isLoading = true;
+                          print("setting isLoading to true");
+                        });
+                        UserModel userModel = await postLogin(
+                            emailController.text, passwordController.text);
+                        setState(() {
+                          isLoading = false;
+                          print("setting isLoading to false");
+                        });
+                        print("ok pushing new screen...");
+                        print(userModel);
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => UserPage(
+                              userModel: userModel,
+                            ),
+                          ),
+                        );
+                        // Navigator.of(context).pushNamed('future_page');
+                      },
+                      padding: const EdgeInsets.all(10),
+                      color: Colors.green,
+                      child: const Text('Log in',
+                          style: TextStyle(color: Colors.white)),
+                    )
+                  : const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
