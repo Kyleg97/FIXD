@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:fixd/pages/page_login.dart';
+import 'pages/page_login.dart';
+import 'models/user_model.dart';
+import 'pages/page_user.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final routes = <String, WidgetBuilder>{
-    // TO DO
-  };
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,56 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: LoginPage(),
-      routes: routes,
+      home: HomePage(),
+      // routes: routes,
     );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  // HomePage({Key key}) : super(key: key);
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // UserModel userModel = await ;
+  bool _loggedIn = false;
+  int _currentIndex = 0;
+  final List<Widget> _pages = [
+    // UserPage(userModel: userModel),
+    // VinPage()
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  /*void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }*/
+
+  List<BottomNavigationBarItem> bottomNavBarItems() {
+    return [
+      const BottomNavigationBarItem(
+          icon: Icon(Icons.verified_user_rounded), label: 'Profile'),
+      const BottomNavigationBarItem(icon: Icon(Icons.car_rental), label: 'VIN'),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _loggedIn == false
+        ? LoginPage()
+        : Scaffold(
+            body: _pages[_currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              onTap: (index) => setState(() => _currentIndex = index),
+              items: bottomNavBarItems(),
+            ),
+          );
   }
 }
