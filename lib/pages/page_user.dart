@@ -6,8 +6,8 @@ class UserPage extends StatelessWidget {
   final UserModel userModel;
   UserPage({Key? key, required this.userModel}) : super(key: key);
 
-  TextStyle header = const TextStyle(fontWeight: FontWeight.bold, fontSize: 24);
-  TextStyle data = const TextStyle(color: Colors.grey);
+  TextStyle data = const TextStyle(fontWeight: FontWeight.bold, fontSize: 22);
+  TextStyle header = const TextStyle(color: Colors.grey, fontSize: 18);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class UserPage extends StatelessWidget {
                 child: Image.asset('assets/profile.png'),
               ),
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 50.0),
             Text('Name', style: header),
             Text(userModel.data.name, style: data),
             const SizedBox(height: 25.0),

@@ -62,6 +62,7 @@ flutter:
   assets:
     - assets/FIXD.png
     - assets/FIXD.jpg
+    - assets/profile.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
