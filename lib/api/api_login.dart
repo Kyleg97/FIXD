@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_session/flutter_session.dart';
 import "package:http/http.dart" as http;
 import '../models/user_model.dart';
 
@@ -20,6 +21,9 @@ Future<UserModel> postLogin(String email, String password) async {
       await http.post(Uri.parse(url), headers: headers, body: data);
   final userModel = userModelFromJson(response.body.toString());
   print(userModel);
+  if (userModel.status == "CREATED") {
+    await FlutterSession().set('userModel', userModel);
+  }
   return userModel;
 }
 
