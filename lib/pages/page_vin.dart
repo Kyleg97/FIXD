@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/recall_provider.dart';
 import '../providers/vin_provider.dart';
 
 class VinPage extends StatelessWidget {
@@ -62,6 +63,9 @@ class VinPage extends StatelessWidget {
                                       provider.vinModel.results[8].value;
                                   String year =
                                       provider.vinModel.results[9].value;
+                                  // await Provider.of<RecallProvider>(context,
+                                  // listen: false)
+                                  // .getRecallData(make, model, year);
                                   // Get.to(() => CarInfoPage());
                                 },
                                 padding: const EdgeInsets.all(10),

@@ -1,4 +1,3 @@
-import 'package:fixd/models/user_model.dart';
 import 'package:flutter/material.dart';
 import '../api.dart';
 import '../models/vin_model.dart';
