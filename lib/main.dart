@@ -24,13 +24,39 @@ class MyApp extends StatelessWidget {
 
   bool loggedIn = false;
 
-  @override
-  void initState() async {
+  /*Future getSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? email = prefs.getString('email');
+    print("email: ${email}");
     if (email != null) loggedIn = true;
   }
 
+  void initState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? email = prefs.getString('email');
+    print("email: ${email}");
+    if (email != null) loggedIn = true;
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+        routes: {'/home': (context) => HomePage()},
+        title: 'FIXD',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: loggedIn == true ? HomePage() : LoginPage());
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final pwController = TextEditingController();
 
@@ -38,117 +64,104 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      routes: {'/home': (context) => HomePage()},
-      title: 'FIXD',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: loggedIn == true
-          ? HomePage()
-          : Form(
-              key: _formKey,
-              child: Consumer<UserProvider>(
-                builder: (context, provider, child) {
-                  return Scaffold(
-                    body: Center(
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                        children: [
-                          Hero(
-                            tag: 'hero',
-                            child: CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              radius: 50.0,
-                              child: Image.asset('assets/FIXD.jpg'),
-                            ),
-                          ),
-                          const SizedBox(height: 50.0),
-                          TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            autofocus: false,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter an email address';
-                              }
-                            },
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              hintText: 'Email',
-                              contentPadding: const EdgeInsets.fromLTRB(
-                                  20.0, 10.0, 20.0, 10.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0)),
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
-                          TextFormField(
-                            autofocus: false,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a password';
-                              }
-                            },
-                            obscureText: true,
-                            controller: pwController,
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              contentPadding: const EdgeInsets.fromLTRB(
-                                  20.0, 10.0, 20.0, 10.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0)),
-                            ),
-                          ),
-                          const SizedBox(height: 25.0),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15.0),
-                            child: provider.isFetching == false
-                                ? RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        await provider.login(
-                                            emailController.text.toString(),
-                                            pwController.text.toString());
-                                        if (provider.userModel.status !=
-                                            "ERROR") {
-                                          SharedPreferences prefs =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          prefs.setString('email',
-                                              emailController.text.toString());
-                                          prefs.setString('password',
-                                              pwController.text.toString());
-                                          Get.to(() => HomePage());
-                                        } else {
-                                          emailController.clear();
-                                          pwController.clear();
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                                  content: Text(
-                                                      'Incorrect email/password')));
-                                        }
-                                      }
-                                    },
-                                    padding: const EdgeInsets.all(10),
-                                    color: Colors.green,
-                                    child: const Text('Log in',
-                                        style: TextStyle(color: Colors.white)),
-                                  )
-                                : const Center(
-                                    child: CircularProgressIndicator()),
-                          ),
-                        ],
-                      ),
+    return Form(
+      key: _formKey,
+      child: Consumer<UserProvider>(
+        builder: (context, provider, child) {
+          return Scaffold(
+            body: Center(
+              child: ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+                children: [
+                  Hero(
+                    tag: 'hero',
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 50.0,
+                      child: Image.asset('assets/FIXD.jpg'),
                     ),
-                  );
-                },
+                  ),
+                  const SizedBox(height: 50.0),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email address';
+                      }
+                    },
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0)),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextFormField(
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a password';
+                      }
+                    },
+                    obscureText: true,
+                    controller: pwController,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0)),
+                    ),
+                  ),
+                  const SizedBox(height: 25.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    child: provider.isFetching == false
+                        ? RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                await provider.login(
+                                    emailController.text.toString(),
+                                    pwController.text.toString());
+                                if (provider.userModel.status != "ERROR") {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString(
+                                      'email', emailController.text.toString());
+                                  prefs.setString(
+                                      'password', pwController.text.toString());
+                                  Get.to(() => HomePage());
+                                } else {
+                                  emailController.clear();
+                                  pwController.clear();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Incorrect email/password')));
+                                }
+                              }
+                            },
+                            padding: const EdgeInsets.all(10),
+                            color: Colors.green,
+                            child: const Text('Log in',
+                                style: TextStyle(color: Colors.white)),
+                          )
+                        : const Center(child: CircularProgressIndicator()),
+                  ),
+                ],
               ),
             ),
+          );
+        },
+      ),
     );
   }
 }
