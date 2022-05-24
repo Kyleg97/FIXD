@@ -29,22 +29,22 @@ class VinModel {
 
 class Result {
   Result({
-    required this.value,
-    required this.valueId,
-    required this.variable,
-    required this.variableId,
+    this.value,
+    this.valueId,
+    this.variable,
+    this.variableId,
   });
 
-  String value;
-  String valueId;
-  String variable;
-  int variableId;
+  String? value;
+  String? valueId;
+  String? variable;
+  int? variableId;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        value: json["Value"],
-        valueId: json["ValueId"],
-        variable: json["Variable"],
-        variableId: json["VariableId"],
+        value: json["Value"] ?? "",
+        valueId: json["ValueId"] ?? "",
+        variable: json["Variable"] ?? "",
+        variableId: json["VariableId"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

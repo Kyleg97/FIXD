@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../providers/recall_provider.dart';
 import '../providers/vin_provider.dart';
+import 'page_recall.dart';
 
 class VinPage extends StatelessWidget {
   VinPage({Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class VinPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<VinProvider>(
       builder: (context, provider, child) {
-        return provider.isFetching
+        return provider.isFetching == true
             ? const Center(child: CircularProgressIndicator())
             : Scaffold(
                 body: Center(
@@ -58,15 +60,21 @@ class VinPage extends StatelessWidget {
                                   await provider.getMakeAndModel(
                                       vinController.text.toString());
                                   String make =
-                                      provider.vinModel.results[6].value;
+                                      provider.vinModel.results[6].value ??
+                                          "null";
                                   String model =
-                                      provider.vinModel.results[8].value;
+                                      provider.vinModel.results[8].value ??
+                                          "null";
                                   String year =
-                                      provider.vinModel.results[9].value;
-                                  // await Provider.of<RecallProvider>(context,
-                                  // listen: false)
-                                  // .getRecallData(make, model, year);
-                                  // Get.to(() => CarInfoPage());
+                                      provider.vinModel.results[9].value ??
+                                          "null";
+                                  print("make: ${make}");
+                                  print("model: ${model}");
+                                  print("year: ${year}");
+                                  await Provider.of<RecallProvider>(context,
+                                          listen: false)
+                                      .getRecallData(make, model, year);
+                                  Get.to(() => const RecallPage());
                                 },
                                 padding: const EdgeInsets.all(10),
                                 color: Colors.green,

@@ -46,8 +46,12 @@ class API {
 
   static Future getRecallData(String make, String model, String year) async {
     String url =
-        "https://api.nhtsa.gov/recalls/recallsByVehicle?make=${make}}&model=${model}&modelYear=${year}";
+        "https://api.nhtsa.gov/recalls/recallsByVehicle?make=${make}&model=${model}&modelYear=${year}";
+    print("url");
+    print(url);
     final response = await http.get(Uri.parse(url));
+    print("response");
+    print(response.body.toString());
     return RecallModel.fromJson(json.decode(response.body.toString()));
   }
 }

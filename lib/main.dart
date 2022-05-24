@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'api.dart';
 import 'models/user_model.dart';
 import 'pages/page_vin.dart';
+import 'providers/recall_provider.dart';
 import 'providers/user_provider.dart';
 import 'pages/page_user.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,8 @@ import 'providers/vin_provider.dart';
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => UserProvider()),
-    ChangeNotifierProvider(create: (_) => VinProvider())
+    ChangeNotifierProvider(create: (_) => VinProvider()),
+    ChangeNotifierProvider(create: (_) => RecallProvider()),
   ], child: MyApp()));
 }
 
