@@ -17,7 +17,7 @@ class API {
     };
     final response =
         await http.post(Uri.parse(url), headers: headers, body: data);
-    await getUserInfo();
+    // await getUserInfo();
     return UserModel.fromJson(json.decode(response.body.toString()));
   }
 
