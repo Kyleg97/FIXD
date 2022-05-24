@@ -48,16 +48,20 @@ class VinPage extends StatelessWidget {
                       const SizedBox(height: 25.0),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        child: Provider.of<VinProvider>(context, listen: false)
-                                    .isFetching ==
-                                false
+                        child: provider.isFetching == false
                             ? RaisedButton(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 onPressed: () async {
-                                  //await Provider.of<VinProvider>(context,
-                                  //listen: false)
+                                  await provider.getMakeAndModel(
+                                      vinController.text.toString());
+                                  String make =
+                                      provider.vinModel.results[6].value;
+                                  String model =
+                                      provider.vinModel.results[8].value;
+                                  String year =
+                                      provider.vinModel.results[9].value;
                                   // Get.to(() => CarInfoPage());
                                 },
                                 padding: const EdgeInsets.all(10),
