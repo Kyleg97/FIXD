@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage>
   List<BottomNavigationBarItem> bottomNavBarItems() {
     return [
       const BottomNavigationBarItem(
-          icon: Icon(Icons.verified_user_rounded), label: 'Profile'),
+          icon: Icon(Icons.supervised_user_circle), label: 'Profile'),
       const BottomNavigationBarItem(icon: Icon(Icons.car_rental), label: 'VIN'),
     ];
   }
@@ -141,6 +141,8 @@ class _HomePageState extends State<HomePage>
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => setState(() => _currentIndex = index),
         items: bottomNavBarItems(),
+        selectedItemColor: Colors.green,
+        currentIndex: _currentIndex,
       ),
     );
   }
