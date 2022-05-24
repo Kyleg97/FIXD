@@ -5,9 +5,8 @@ import '../providers/recall_provider.dart';
 class RecallPage extends StatelessWidget {
   const RecallPage({Key? key}) : super(key: key);
 
-  final TextStyle data =
-      const TextStyle(fontWeight: FontWeight.bold, fontSize: 22);
-  final TextStyle header = const TextStyle(color: Colors.grey, fontSize: 18);
+  final TextStyle data = const TextStyle(fontSize: 18);
+  final TextStyle header = const TextStyle(color: Colors.grey, fontSize: 16);
 
   @override
   Widget build(BuildContext context) {
