@@ -17,9 +17,6 @@ class API {
     };
     final response =
         await http.post(Uri.parse(url), headers: headers, body: data);
-    // await getUserInfo();
-    print("response!");
-    print(response.body.toString());
     return UserModel.fromJson(json.decode(response.body.toString()));
   }
 
@@ -35,6 +32,17 @@ class API {
     };
     final response = await http.get(Uri.parse(url), headers: headers);
     return UserModel.fromJson(json.decode(response.body.toString()));
-    // print(response.body.toString());
+  }
+
+  static Future getMakeAndModel(String VIN) async {
+    String url =
+        "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${VIN}?format=json";
+    final response = await http.get(Uri.parse(url));
+  }
+
+  static Future getRecallData(String make, String model, String year) async {
+    String url =
+        "https://api.nhtsa.gov/recalls/recallsByVehicle?make=${make}}&model=${model}&modelYear=${year}";
+    final response = await http.get(Uri.parse(url));
   }
 }

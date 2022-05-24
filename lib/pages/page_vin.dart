@@ -38,7 +38,7 @@ class VinPage extends StatelessWidget {
                         // initialValue: '',
                         controller: vinController,
                         decoration: InputDecoration(
-                          hintText: 'VIN',
+                          hintText: 'Enter VIN',
                           contentPadding:
                               const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
