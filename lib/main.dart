@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'api.dart';
 import 'models/user_model.dart';
+import 'pages/page_vin.dart';
 import 'providers/user_provider.dart';
 import 'pages/page_user.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/vin_provider.dart';
+
 void main() {
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
-      child: MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => UserProvider()),
+    ChangeNotifierProvider(create: (_) => VinProvider())
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,9 +32,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text("FIXD Login"),
-        ),
         body: Center(
           child: ListView(
             shrinkWrap: true,
@@ -113,10 +114,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
-  final List<Widget> _pages = [
-    const UserPage(),
-    // VinPage()
-  ];
+  final List<Widget> _pages = [const UserPage(), VinPage()];
 
   @override
   void initState() {

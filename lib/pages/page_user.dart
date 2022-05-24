@@ -15,9 +15,6 @@ class UserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
       builder: (context, provider, child) {
-        print("isfetching: ${provider.isFetching}");
-        print("........usermodel........");
-        print(provider.userModel);
         return provider.isFetching
             ? const Center(child: CircularProgressIndicator())
             : Scaffold(
