@@ -10,7 +10,7 @@ class UserProvider with ChangeNotifier {
 
   bool get isFetching => _isFetching;
 
-  UserModel _userModel = UserModel();
+  late UserModel _userModel;
 
   UserModel get userModel => _userModel;
 

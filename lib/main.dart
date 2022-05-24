@@ -75,21 +75,26 @@ class MyApp extends StatelessWidget {
               const SizedBox(height: 25.0),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  onPressed: () async {
-                    Provider.of<UserProvider>(context, listen: false).login(
-                        emailController.text.toString(),
-                        pwController.text.toString());
-                    Get.to(() => HomePage());
-                  },
-                  padding: const EdgeInsets.all(10),
-                  color: Colors.green,
-                  child: const Text('Log in',
-                      style: TextStyle(color: Colors.white)),
-                ),
+                child: Provider.of<UserProvider>(context, listen: false)
+                            .isFetching ==
+                        false
+                    ? RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        onPressed: () async {
+                          await Provider.of<UserProvider>(context,
+                                  listen: false)
+                              .login(emailController.text.toString(),
+                                  pwController.text.toString());
+                          Get.to(() => HomePage());
+                        },
+                        padding: const EdgeInsets.all(10),
+                        color: Colors.green,
+                        child: const Text('Log in',
+                            style: TextStyle(color: Colors.white)),
+                      )
+                    : const Center(child: CircularProgressIndicator()),
               ),
             ],
           ),
@@ -109,7 +114,7 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   final List<Widget> _pages = [
-    UserPage(),
+    const UserPage(),
     // VinPage()
   ];
 
