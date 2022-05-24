@@ -1,11 +1,11 @@
 class UserModel {
   UserModel({
     required this.status,
-    required this.data,
+    this.data,
   });
 
   String status;
-  Data data;
+  Data? data;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         status: json["status"],
@@ -14,7 +14,7 @@ class UserModel {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "data": data.toJson(),
+        "data": data?.toJson(),
       };
 }
 

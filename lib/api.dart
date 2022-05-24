@@ -20,6 +20,9 @@ class API {
     };
     final response =
         await http.post(Uri.parse(url), headers: headers, body: data);
+    if (jsonDecode(response.body.toString())["status"] == "ERROR") {
+      return UserModel(status: "ERROR");
+    }
     return UserModel.fromJson(json.decode(response.body.toString()));
   }
 
