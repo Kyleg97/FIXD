@@ -16,21 +16,16 @@ class RecallPage extends StatelessWidget {
         return provider.isFetching == true
             ? const Center(child: CircularProgressIndicator())
             : Scaffold(
+                appBar: AppBar(
+                  title: const Text('Recall Information'),
+                ),
                 backgroundColor: Colors.white,
                 body: Center(
                   child: ListView(
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(left: 25.0, right: 25.0),
                     children: [
-                      Hero(
-                        tag: 'hero',
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 50.0,
-                          child: Image.asset('assets/profile.png'),
-                        ),
-                      ),
-                      const SizedBox(height: 50.0),
+                      const SizedBox(height: 25.0),
                       Text('Manufacturer', style: header),
                       Text(list.isEmpty ? "null" : list[0].manufacturer,
                           style: data),
