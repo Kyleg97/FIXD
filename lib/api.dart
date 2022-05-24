@@ -2,6 +2,9 @@ import "package:http/http.dart" as http;
 import '../models/user_model.dart';
 import 'dart:convert';
 
+import 'models/recall_model.dart';
+import 'models/vin_model.dart';
+
 class API {
   static Future postLogin(String email, String password) async {
     String url = "https://staff.dev.fixdapp.com/api/v2/session";
@@ -38,11 +41,13 @@ class API {
     String url =
         "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${VIN}?format=json";
     final response = await http.get(Uri.parse(url));
+    return VinModel.fromJson(json.decode(response.body.toString()));
   }
 
   static Future getRecallData(String make, String model, String year) async {
     String url =
         "https://api.nhtsa.gov/recalls/recallsByVehicle?make=${make}}&model=${model}&modelYear=${year}";
     final response = await http.get(Uri.parse(url));
+    return RecallModel.fromJson(json.decode(response.body.toString()));
   }
 }
