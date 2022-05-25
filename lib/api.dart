@@ -19,6 +19,7 @@ class API {
     };
     final response =
         await http.post(Uri.parse(url), headers: headers, body: data);
+    print(response.body.toString());
     if (jsonDecode(response.body.toString())["status"] == "ERROR") {
       return UserModel(status: "ERROR");
     }
@@ -42,8 +43,6 @@ class API {
     String url =
         "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${VIN}?format=json";
     final response = await http.get(Uri.parse(url));
-    print("------response--------");
-    print(response.body.toString());
     return VinModel.fromJson(json.decode(response.body.toString()));
   }
 
