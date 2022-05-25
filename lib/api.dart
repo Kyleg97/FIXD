@@ -42,6 +42,8 @@ class API {
     String url =
         "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${VIN}?format=json";
     final response = await http.get(Uri.parse(url));
+    print("------response--------");
+    print(response.body.toString());
     return VinModel.fromJson(json.decode(response.body.toString()));
   }
 
