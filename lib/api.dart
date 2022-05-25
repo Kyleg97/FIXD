@@ -1,7 +1,6 @@
 import "package:http/http.dart" as http;
 import '../models/user_model.dart';
 import 'dart:convert';
-
 import 'models/recall_model.dart';
 import 'models/vin_model.dart';
 
@@ -26,17 +25,18 @@ class API {
     return UserModel.fromJson(json.decode(response.body.toString()));
   }
 
-  static Future getUserInfo() async {
+  static Future getUserInfo(String auth) async {
     String url = "https://staff.dev.fixdapp.com/api/v2/users/559426";
     final headers = {
-      'Authorization':
-          'BearerwFj/uwMby4UqX6jj.VnyMkjUwNx9evRJf0WCB6kAlqhRGeBt6cIYe5v++uqQhRDWxm3lF21x0BXEwqU0P',
+      'Authorization': auth,
       'X-Endpoint-Version': '2019-06-20',
       'X-Verbose-Response': 'true',
       'Accept-Language': 'en-US',
       'Content-Type': 'application/json;distance=mi;currency=USD'
     };
     final response = await http.get(Uri.parse(url), headers: headers);
+    print("auth api call response");
+    print(response.body.toString());
     return UserModel.fromJson(json.decode(response.body.toString()));
   }
 

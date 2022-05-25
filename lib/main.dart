@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'api.dart';
-import 'models/user_model.dart';
 import 'pages/page_vin.dart';
 import 'providers/recall_provider.dart';
 import 'providers/user_provider.dart';
@@ -11,47 +9,45 @@ import 'package:provider/provider.dart';
 
 import 'providers/vin_provider.dart';
 
-void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => UserProvider()),
-    ChangeNotifierProvider(create: (_) => VinProvider()),
-    ChangeNotifierProvider(create: (_) => RecallProvider()),
-  ], child: MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? auth = prefs.getString('auth');
+  print("auth: ${auth}");
+
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => VinProvider()),
+        ChangeNotifierProvider(create: (_) => RecallProvider()),
+      ],
+      child: MyApp(
+        auth: auth,
+      )));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  bool loggedIn = false;
-
-  /*Future getSharedPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? email = prefs.getString('email');
-    print("email: ${email}");
-    if (email != null) loggedIn = true;
-  }
-
-  void initState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? email = prefs.getString('email');
-    print("email: ${email}");
-    if (email != null) loggedIn = true;
-  }*/
+  final String? auth;
+  const MyApp({Key? key, this.auth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        routes: {'/home': (context) => HomePage()},
-        title: 'FIXD',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-        ),
-        home: loggedIn == true ? HomePage() : LoginPage());
+      routes: {'/home': (context) => HomePage()},
+      title: 'FIXD',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: auth == null ? const LoginPage() : HomePage(auth: this.auth!),
+    );
   }
 }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -132,12 +128,6 @@ class _LoginPageState extends State<LoginPage> {
                                     emailController.text.toString(),
                                     pwController.text.toString());
                                 if (provider.userModel.status != "ERROR") {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setString(
-                                      'email', emailController.text.toString());
-                                  prefs.setString(
-                                      'password', pwController.text.toString());
                                   Get.to(() => HomePage());
                                 } else {
                                   emailController.clear();
@@ -167,7 +157,8 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class HomePage extends StatefulWidget {
-  // HomePage({Key key}) : super(key: key);
+  final String? auth;
+  const HomePage({Key? key, this.auth}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -175,12 +166,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
-  final List<Widget> _pages = [const UserPage(), VinPage()];
+
+  List<Widget> _pages = [];
 
   @override
   void initState() {
     super.initState();
-    // API.getUserInfo();
+    _pages = [UserPage(auth: widget.auth), VinPage()];
   }
 
   List<BottomNavigationBarItem> bottomNavBarItems() {

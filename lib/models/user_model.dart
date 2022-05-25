@@ -34,7 +34,7 @@ class Data {
   String name;
   String email;
   String phoneNumber;
-  String authenticationToken;
+  String? authenticationToken;
   String country;
   dynamic diyLevel;
   String universalUuid;
