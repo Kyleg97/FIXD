@@ -13,6 +13,13 @@ class VinPage extends StatelessWidget {
   final TextStyle data =
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 22);
   final TextStyle header = const TextStyle(color: Colors.grey, fontSize: 18);
+  final ButtonStyle btnStyle = ElevatedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(25),
+    ),
+    padding: const EdgeInsets.all(10),
+    primary: Colors.green,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +57,8 @@ class VinPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: provider.isFetching == false
-                      ? RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
+                      ? ElevatedButton(
+                          style: btnStyle,
                           onPressed: () async {
                             await provider
                                 .getMakeAndModel(vinController.text.toString());
@@ -68,8 +73,6 @@ class VinPage extends StatelessWidget {
                                 .getRecallData(make, model, year);
                             Get.to(() => const RecallPage());
                           },
-                          padding: const EdgeInsets.all(10),
-                          color: Colors.green,
                           child: const Text('Search',
                               style: TextStyle(color: Colors.white)),
                         )

@@ -6,7 +6,6 @@ import 'providers/recall_provider.dart';
 import 'providers/user_provider.dart';
 import 'pages/page_user.dart';
 import 'package:provider/provider.dart';
-
 import 'providers/vin_provider.dart';
 
 void main() async {
@@ -14,7 +13,6 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? auth = prefs.getString('auth');
-  print("auth: ${auth}");
 
   runApp(MultiProvider(
       providers: [
@@ -57,6 +55,14 @@ class _LoginPageState extends State<LoginPage> {
   final pwController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  final ButtonStyle btnStyle = ElevatedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(25),
+    ),
+    padding: const EdgeInsets.all(10),
+    primary: Colors.green,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -118,10 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
                     child: provider.isFetching == false
-                        ? RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
+                        ? ElevatedButton(
+                            style: btnStyle,
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 await provider.login(
@@ -139,8 +143,6 @@ class _LoginPageState extends State<LoginPage> {
                                 }
                               }
                             },
-                            padding: const EdgeInsets.all(10),
-                            color: Colors.green,
                             child: const Text('Log in',
                                 style: TextStyle(color: Colors.white)),
                           )

@@ -30,7 +30,5 @@ class UserProvider with ChangeNotifier {
     _userModel = await API.getUserInfo(auth);
     _isFetching = false;
     // notifyListeners();
-    print("----model----");
-    print(_userModel!.data.toString());
   }
 }

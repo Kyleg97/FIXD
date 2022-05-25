@@ -35,8 +35,6 @@ class API {
       'Content-Type': 'application/json;distance=mi;currency=USD'
     };
     final response = await http.get(Uri.parse(url), headers: headers);
-    print("auth api call response");
-    print(response.body.toString());
     return UserModel.fromJson(json.decode(response.body.toString()));
   }
 
@@ -50,11 +48,7 @@ class API {
   static Future getRecallData(String make, String model, String year) async {
     String url =
         "https://api.nhtsa.gov/recalls/recallsByVehicle?make=${make}&model=${model}&modelYear=${year}";
-    print("url");
-    print(url);
     final response = await http.get(Uri.parse(url));
-    print("response");
-    print(response.body.toString());
     return RecallModel.fromJson(json.decode(response.body.toString()));
   }
 }
